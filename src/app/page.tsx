@@ -4,6 +4,8 @@ import { UserInfo, remult } from "remult";
 import { Task } from "../shared/Task";
 import { TasksController } from "../shared/TasksController";
 import { signIn, signOut, useSession } from "next-auth/react";
+import ably from "ably/promises";
+import { AblySubscriptionClient } from "remult/ably";
 
 const taskRepo = remult.repo(Task);
 
@@ -14,6 +16,9 @@ export default function Page() {
   const session = useSession();
 
   useEffect(() => {
+    remult.apiClient.subscriptionClient = new AblySubscriptionClient(
+      new ably.Realtime({ authUrl: "/api/getAblyToken" })
+    );
     remult.user = session.data?.user as UserInfo;
     if (session.status === "unauthenticated") signIn();
     else if (session.status === "authenticated")

@@ -8,17 +8,21 @@ import { authOptions } from "../auth/[...nextauth]/route";
 import { createPostgresConnection } from "remult/postgres";
 import ably from "ably/promises";
 import { AblySubscriptionServer } from "remult/ably";
+import { DataProviderLiveQueryStorage } from "remult/server";
 
+const dataProvider= createPostgresConnection()
 const api = remultNextApp({
   entities: [Task],
   controllers: [TasksController],
   getUser: async () => {
     return (await getServerSession(authOptions))?.user as UserInfo;
   },
-  dataProvider: createPostgresConnection(),
+  dataProvider,
   subscriptionServer: new AblySubscriptionServer(
     new ably.Rest(process.env["ABLY_API_KEY"]!)
   ),
+  liveQueryStorage: new DataProviderLiveQueryStorage(dataProvider)
+
 });
 
 export const { POST, PUT, DELETE, GET, withRemult } = api;
