@@ -9,6 +9,8 @@ import { AblySubscriptionClient } from "remult/ably";
 
 const taskRepo = remult.repo(Task);
 
+export const fetchCache = "force-no-store";
+
 export default function Page() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState("");
