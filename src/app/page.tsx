@@ -20,7 +20,16 @@ export default function Page() {
       new ably.Realtime({
         authUrl: "/api/getAblyToken",
         queryTime: true,
-        authHeaders: { "Cache-Control": "no-store" },
+        authCallback: async (data, callback) => {
+          try {
+            const tokenRequest = await (
+              await fetch("/api/getAblyToken", { cache: "no-store" })
+            ).json();
+            callback(null, tokenRequest);
+          } catch (e) {
+            callback(e as string, null);
+          }
+        },
       })
     );
     remult.user = session.data?.user as UserInfo;
