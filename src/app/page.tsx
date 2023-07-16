@@ -17,7 +17,7 @@ export default function Page() {
 
   useEffect(() => {
     remult.apiClient.subscriptionClient = new AblySubscriptionClient(
-      new ably.Realtime({ authUrl: "/api/getAblyToken", queryTime: true })
+      new ably.Realtime({ authUrl: "/api/getAblyToken" })
     );
     remult.user = session.data?.user as UserInfo;
     if (session.status === "unauthenticated") signIn();
