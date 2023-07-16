@@ -10,5 +10,6 @@ export async function GET() {
       "*": ["subscribe", "publish", "presence"],
     },
   });
+  console.log(token);
   return NextResponse.json(token, { headers: { "Cache-Control": "no-store" } });
 }
