@@ -13,5 +13,7 @@ export async function GET() {
     },
   });
   console.log(token);
-  return NextResponse.json(token, { headers: { "Cache-Control": "no-store" } });
+  return NextResponse.json(token);
 }
+
+export const dynamic = 'auto'
