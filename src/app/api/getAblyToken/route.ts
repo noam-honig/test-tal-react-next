@@ -16,4 +16,4 @@ export async function GET() {
   return NextResponse.json(token);
 }
 
-export const dynamic = 'auto'
+export const dynamic = 'force-dynamic'
